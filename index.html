@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WCD 2026 – Cancer Prevention Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#1a0a2e;color:#f0f0f0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;overflow-x:hidden}
+h1{color:#ff6b35;font-size:1.4rem;text-align:center;margin-bottom:2px}
+.sub{color:#c084fc;font-size:0.85rem;text-align:center;margin-bottom:20px}
+.card{background:#2d1b4e;border-radius:14px;padding:22px;width:100%;max-width:600px;box-shadow:0 6px 24px rgba(0,0,0,0.4)}
+.card h2{color:#ff6b35;margin-bottom:14px;font-size:1.1rem}
+label{display:block;margin-bottom:5px;color:#c084fc;font-size:0.88rem}
+input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #4a2d7a;background:#1a0a2e;color:#f0f0f0;font-size:1rem;margin-bottom:14px}
+input:focus{outline:none;border-color:#ff6b35}
+.btn{width:100%;padding:12px;border-radius:8px;border:none;background:linear-gradient(135deg,#ff6b35,#c084fc);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;margin-top:6px;transition:opacity .2s}
+.btn:hover{opacity:.85}
+.btn-outline{background:transparent;border:2px solid #c084fc;color:#c084fc;margin-top:8px;width:100%;padding:10px;border-radius:8px;cursor:pointer;font-size:.92rem}
+.btn-danger{background:transparent;border:2px solid #ef4444;color:#ef4444;margin-top:8px;width:100%;padding:10px;border-radius:8px;cursor:pointer;font-size:.92rem}
+.btn-dl{background:linear-gradient(135deg,#22c55e,#16a34a);border:none;color:#fff;margin-top:8px;width:100%;padding:12px;border-radius:8px;cursor:pointer;font-size:1rem;font-weight:700}
+.prog-wrap{background:#1a0a2e;border-radius:6px;height:6px;margin-bottom:12px;overflow:hidden}
+.prog-bar{height:100%;background:linear-gradient(90deg,#22c55e,#c084fc);border-radius:6px;transition:width .4s ease}
+.prog-lbl{display:flex;justify-content:space-between;font-size:.75rem;color:#6b4fa0;margin-bottom:3px}
+.tw{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.tl{color:#c084fc;font-size:.83rem}
+.ts{font-size:1.15rem;font-weight:800;color:#ff6b35}
+.ts.urg{color:#ef4444;animation:shk .3s infinite}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.tbar-wrap{background:#1a0a2e;border-radius:8px;height:9px;margin-bottom:14px;overflow:hidden}
+.tbar{height:100%;background:linear-gradient(90deg,#ff6b35,#c084fc);transition:width 1s linear}
+.q-text{font-size:1rem;font-weight:600;margin-bottom:16px;line-height:1.5;animation:sli .25s ease}
+@keyframes sli{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{padding:11px 14px;border-radius:10px;border:2px solid #4a2d7a;background:#1a0a2e;cursor:pointer;font-size:.92rem;text-align:left;color:#f0f0f0;width:100%;transition:border-color .15s,background .15s}
+.opt:active{border-color:#c084fc;background:#2d1b4e}
+.opt.sel{border-color:#c084fc;background:#3b1f6e}
+.opt.dis{pointer-events:none;opacity:.6}
+.sc-big{font-size:3rem;font-weight:900;text-align:center;margin:12px 0 4px;background:linear-gradient(135deg,#ff6b35,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pop .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.sc-sub{text-align:center;color:#c084fc;margin-bottom:12px;font-size:.92rem}
+.cert{background:linear-gradient(135deg,#1a0a2e,#2d1b4e);border:3px solid #ff6b35;border-radius:14px;padding:20px;text-align:center;margin:12px 0;position:relative;overflow:hidden}
+.cert::before{content:'';position:absolute;inset:5px;border:1px dashed #4a2d7a;border-radius:10px;pointer-events:none}
+.ct{font-size:.72rem;letter-spacing:3px;color:#c084fc;text-transform:uppercase;margin-bottom:5px}
+.cm{font-size:1.2rem;font-weight:700;color:#ff6b35;margin:4px 0}
+.cn{font-size:1.5rem;font-weight:900;color:#f0f0f0;margin:4px 0 8px}
+.cb{font-size:.83rem;color:#a78bfa;line-height:1.7}
+.cs{font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#ff6b35,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0 4px}
+.cf{font-size:.72rem;color:#6b4fa0;margin-top:8px;border-top:1px solid #4a2d7a;padding-top:7px}
+.lb{width:100%;border-collapse:collapse;font-size:.83rem;margin-top:6px}
+.lb th{background:#1a0a2e;color:#c084fc;padding:8px 6px;text-align:left;white-space:nowrap}
+.lb td{padding:8px 6px;border-bottom:1px solid #2d1b4e}
+.lb tr.me td{background:#3b1f6e}
+.info{padding:12px;border-radius:10px;background:#1a0a2e;border:1px solid #4a2d7a;color:#a78bfa;font-size:.83rem;line-height:1.6;margin-top:10px;text-align:center}
+.alert{padding:14px;border-radius:10px;background:#450a0a;border:1px solid #ef4444;color:#fca5a5;text-align:center;font-size:.92rem;line-height:1.6}
+.admin-btn{position:fixed;bottom:14px;right:14px;font-size:.78rem;color:#c084fc;background:#2d1b4e;border:1px solid #4a2d7a;padding:6px 12px;border-radius:20px;cursor:pointer;user-select:none;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.75rem;font-weight:700}
+.bg{background:#78350f;color:#fde68a}.bs{background:#374151;color:#e5e7eb}.bb{background:#431407;color:#fed7aa}
+.exp-btn{background:#1a0a2e;border:1px solid #4a2d7a;color:#c084fc;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.83rem;margin-top:10px;width:100%}
+.msg{padding:10px;border-radius:8px;margin-top:10px;font-size:.87rem;text-align:center}
+.ok{background:#14532d;color:#86efac;border:1px solid #22c55e}
+.err{background:#450a0a;color:#fca5a5;border:1px solid #ef4444}
+.sec-t{color:#ff6b35;font-size:.85rem;font-weight:700;letter-spacing:1px;margin:14px 0 6px;text-transform:uppercase}
+#cd-overlay{position:fixed;inset:0;background:rgba(10,0,20,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999}
+#cd-num{font-size:7rem;font-weight:900;background:linear-gradient(135deg,#ff6b35,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pop .8s ease}
+#cd-lbl{color:#c084fc;font-size:1rem;margin-top:10px;letter-spacing:2px}
+#qt-overlay{position:fixed;inset:0;background:rgba(10,0,20,.92);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
+.qt-box{background:#2d1b4e;border:2px solid #ff6b35;border-radius:14px;padding:24px;max-width:480px;text-align:center;animation:pop .4s ease}
+.qt-text{font-size:1.05rem;color:#f0f0f0;line-height:1.7;margin-bottom:8px;font-style:italic}
+.qt-auth{color:#c084fc;font-size:.82rem}
+.cp{position:fixed;top:-10px;border-radius:2px;animation:cf linear forwards;pointer-events:none;z-index:9999}
+@keyframes cf{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+/* Hidden canvas for certificate download */
+#cert-canvas{display:none}
+</style>
+</head>
+<body>
+<div style="font-size:1.8rem;margin-bottom:6px">🎗️</div>
+<h1>World Cancer Day 2026 Quiz</h1>
+<p class="sub">Rural Health and Training Centre, Mandur</p>
+<div class="card" id="card"></div>
+<div class="admin-btn" id="adminBtn">⚙ Admin</div>
+<canvas id="cert-canvas"></canvas>
+
+<script>
+const QD=15, PASS='admin2026', LSK='wcd26_a', LSS='wcd26_s';
+const WEB_APP='https://script.google.com/macros/s/AKfycbzvV5MHXsYhK-hjeXZNvNG_nDDUVEzeGxucbbuyIkfNOvwV9LeHh7uvm1J0u5nRtwkvLw/exec';
+
+const QUOTES=[
+  {t:"The best time to prevent cancer is before it starts.",a:"World Health Organization"},
+  {t:"Prevention is not just better than cure — it is the cure we can control.",a:"Cancer Research"},
+  {t:"Early detection saves lives. Screening today means living tomorrow.",a:"Oncology Insight"},
+  {t:"Tobacco is the single greatest cause of preventable cancer death.",a:"WHO"},
+  {t:"A healthy lifestyle is the most powerful anti-cancer medicine available.",a:"Preventive Oncology"},
+  {t:"Vaccination against HPV and HBV is vaccination against cancer.",a:"Global Cancer Initiative"},
+  {t:"Every cigarette not smoked is a step away from cancer.",a:"Cancer Prevention Alliance"},
+  {t:"The power to reduce cancer risk is largely in our hands.",a:"IARC"},
+  {t:"Knowledge of risk factors is the first step toward cancer prevention.",a:"Medical Education"},
+  {t:"Cancer prevention is a community effort — one informed person at a time.",a:"World Cancer Day 2026"},
+];
+
+const QS=[
+  {q:"Which lifestyle change has the GREATEST impact on reducing cancer risk?",o:["Avoiding processed sugar","Quitting tobacco use","Taking vitamin supplements","Reducing red meat intake"],a:1},
+  {q:"Regular screening for which cancer is recommended starting at age 40–45 for average-risk women?",o:["Cervical cancer","Ovarian cancer","Breast cancer","Lung cancer"],a:2},
+  {q:"The HPV vaccine primarily helps prevent which cancer?",o:["Breast cancer","Cervical cancer","Ovarian cancer","Uterine cancer"],a:1},
+  {q:"Which is a MODIFIABLE risk factor for colorectal cancer?",o:["Age","Family history","Physical inactivity","Gender"],a:2},
+  {q:"Which is NOT a known risk factor for breast cancer?",o:["Early age of first menstruation","Prolonged breastfeeding","Hormone replacement therapy","Alcohol consumption"],a:1},
+  {q:"Which dietary pattern is most associated with REDUCED cancer risk?",o:["High protein, low carb","Plant-rich with fruits, vegetables & whole grains","High dairy and calcium","Intermittent fasting"],a:1},
+  {q:"Sun exposure is the primary risk factor for which group of cancers?",o:["Basal cell carcinoma only","Melanoma only","Squamous cell carcinoma only","All major skin cancers"],a:3},
+  {q:"Hepatitis B vaccination reduces the risk of which cancer?",o:["Pancreatic cancer","Stomach cancer","Hepatocellular carcinoma","Bile duct cancer"],a:2},
+  {q:"Which statement about alcohol and cancer risk is TRUE?",o:["Only heavy drinkers are at risk","There is a safe level of alcohol","Even moderate alcohol increases risk of several cancers","Alcohol only affects liver cancer"],a:2},
+  {q:"Early detection of cervical cancer is best achieved through:",o:["Annual MRI","Regular Pap smear and HPV testing","Monthly self-examination","Annual CA-125 test"],a:1},
+  {q:"Which occupational exposure is a well-established cause of mesothelioma?",o:["Benzene","Asbestos","Formaldehyde","Radon"],a:1},
+  {q:"Colorectal cancer screening is recommended for average-risk adults starting at age:",o:["40","45","50","55"],a:1},
+  {q:"The MOST preventable cause of lung cancer is:",o:["Air pollution","Radon gas","Cigarette smoking","Occupational dust"],a:2},
+  {q:"Physical activity reduces cancer risk through which mechanism?",o:["Only reducing obesity","Reducing inflammation, regulating hormones & improving immunity","Improving lung capacity only","Reducing stress only"],a:1},
+  {q:"Which finding in the mouth lasting >2 weeks should prompt investigation for oral cancer?",o:["Bleeding gums","White or red patch","Occasional ulcer","Tooth sensitivity"],a:1},
+  {q:"Which virus is directly associated with increased risk of liver cancer?",o:["HIV","Hepatitis C virus","Herpes simplex virus","Epstein-Barr virus"],a:1},
+  {q:"Which screening test detects colon cancer without a scope?",o:["CA-125 blood test","Fecal occult blood test (FOBT)","Barium swallow","Abdominal ultrasound"],a:1},
+  {q:"The MOST effective population-level cancer prevention strategy is:",o:["Annual screening for all adults","Tobacco control policies and cessation programs","Universal antioxidant supplements","Annual full-body CT scans"],a:1},
+  {q:"Which cancer is most directly linked to chronic H. pylori infection?",o:["Esophageal cancer","Colorectal cancer","Gastric (stomach) cancer","Pancreatic cancer"],a:2},
+  {q:"According to WHO, what % of cancers are preventable through risk factor modification?",o:["20–25%","30–50%","55–65%","70–80%"],a:1},
+];
+
+let tid=null, adv=false;
+let S={name:'',phone:'',q:0,score:0,sel:null,tl:QD,t0:null};
+let usedQ=[], resultData=null;
+
+const $=id=>document.getElementById(id);
+const card=()=>$('card');
+const sh=h=>card().innerHTML=h;
+
+// ── Audio ──
+let actx=null;
+function ac(){if(!actx)try{actx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}return actx;}
+function tone(f,t,d,v=0.25){try{const x=ac();if(!x)return;const o=x.createOscillator(),g=x.createGain();o.connect(g);g.connect(x.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,x.currentTime);g.gain.exponentialRampToValueAtTime(0.001,x.currentTime+d);o.start();o.stop(x.currentTime+d);}catch(e){}}
+function sndClick(){tone(600,'sine',.1,.2)}
+function sndUrg(){tone(880,'square',.07,.12)}
+function sndEnd(){[440,330,220].forEach((f,i)=>setTimeout(()=>tone(f,'sawtooth',.2,.25),i*90))}
+function sndWin(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,'sine',.3,.35),i*110))}
+
+// ── Confetti ──
+function confetti(){
+  const cols=['#ff6b35','#c084fc','#22c55e','#fde68a','#f0f0f0','#60a5fa'];
+  const frag=document.createDocumentFragment();
+  for(let i=0;i<80;i++){
+    const el=document.createElement('div');el.className='cp';
+    el.style.cssText=`left:${Math.random()*100}vw;background:${cols[i%cols.length]};width:${6+Math.random()*7}px;height:${6+Math.random()*7}px;border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1.8+Math.random()*1.8}s;animation-delay:${Math.random()*.6}s;`;
+    frag.appendChild(el);
+  }
+  document.body.appendChild(frag);
+  setTimeout(()=>document.querySelectorAll('.cp').forEach(e=>e.remove()),4500);
+}
+
+// ── Countdown ──
+function countdown(cb){
+  const ov=document.createElement('div');ov.id='cd-overlay';
+  ov.innerHTML='<div id="cd-num"></div><div id="cd-lbl">GET READY!</div>';
+  document.body.appendChild(ov);
+  const ns=['3','2','1','GO! 🎗️'];let i=0;
+  function tick(){const el=$('cd-num');if(!el)return;el.style.animation='none';el.offsetHeight;el.style.animation='pop .8s ease';el.textContent=ns[i];tone(i<3?440:880,'sine',.25,.35);i++;if(i<ns.length)setTimeout(tick,850);else setTimeout(()=>{ov.remove();cb();},650);}
+  tick();
+}
+
+// ── Quote ──
+function quote(cb){
+  let avail=QUOTES.filter((_,i)=>!usedQ.includes(i));
+  if(!avail.length){usedQ=[];avail=QUOTES;}
+  const idx=QUOTES.indexOf(avail[Math.floor(Math.random()*avail.length)]);usedQ.push(idx);const q=QUOTES[idx];
+  const ov=document.createElement('div');ov.id='qt-overlay';
+  ov.innerHTML=`<div class="qt-box"><div style="font-size:1.8rem;margin-bottom:10px">💬</div><div class="qt-text">"${q.t}"</div><div class="qt-auth">— ${q.a}</div><button class="btn" id="qnxt" style="margin-top:16px">Continue Quiz →</button></div>`;
+  document.body.appendChild(ov);
+  $('qnxt').addEventListener('click',()=>{ov.remove();cb();});
+}
+
+// ── localStorage (one-attempt lock only) ──
+function getA(){try{return JSON.parse(localStorage.getItem(LSK)||'[]');}catch(e){return[];}}
+function setA(p){const a=getA();if(!a.includes(p)){a.push(p);localStorage.setItem(LSK,JSON.stringify(a));}}
+function hasA(p){return getA().includes(p);}
+// local scores for leaderboard display
+function getS(){try{return JSON.parse(localStorage.getItem(LSS)||'[]');}catch(e){return[];}}
+function addS(r){const s=getS();s.push(r);localStorage.setItem(LSS,JSON.stringify(s));}
+
+// ── Send to Google Sheets ──
+async function sendToSheet(record){
+  try{
+    await fetch(WEB_APP,{method:'POST',body:JSON.stringify(record)});
+  }catch(e){console.warn('Sheet sync failed:',e);}
+}
+
+$('adminBtn').addEventListener('click',adminLogin);
+
+// ── Register ──
+function reg(){
+  clearInterval(tid);
+  sh(`<h2>🎗️ Register to Attempt</h2>
+    <p style="color:#a78bfa;font-size:.85rem;margin-bottom:14px">You can attempt this quiz only <strong>once</strong> on this device.</p>
+    <label>Full Name *</label><input type="text" id="nm" placeholder="Dr. Jane Smith" maxlength="80">
+    <label>10-Digit Mobile Number *</label><input type="tel" id="ph" placeholder="e.g. 9876543210" maxlength="10">
+    <button class="btn" id="sb">🚀 Start Quiz</button>`);
+  $('sb').addEventListener('click',doReg);
+}
+
+function doReg(){
+  const name=$('nm').value.trim();
+  const phone=$('ph').value.trim().replace(/\D/g,'');
+  if(!name){alert('Please enter your full name.');return;}
+  if(!/^\d{10}$/.test(phone)){alert('Please enter a valid 10-digit mobile number.');return;}
+  if(hasA(phone)){sh(`<div class="alert"><strong>⚠️ Already Attempted</strong><br><br>Mobile <strong>${phone}</strong> has already been used on this device.</div>`);return;}
+  S.name=name;S.phone=phone;
+  countdown(startQ);
+}
+
+// ── Quiz ──
+function startQ(){S.q=0;S.score=0;S.sel=null;S.t0=Date.now();showQ();}
+
+function showQ(){
+  if(S.q>=QS.length){finish();return;}
+  adv=false;S.sel=null;S.tl=QD;
+  const q=QS[S.q],pct=Math.round(S.q/QS.length*100);
+  sh(`<div class="prog-lbl"><span>Progress</span><span>${S.q}/${QS.length} done</span></div>
+    <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
+    <div class="tw"><span class="tl">Q${S.q+1}<span style="color:#4a2d7a"> / ${QS.length}</span></span><span class="ts" id="ts">${QD}s</span></div>
+    <div class="tbar-wrap"><div class="tbar" id="tb" style="width:100%"></div></div>
+    <div class="q-text">${q.q}</div>
+    <div class="opts" id="opts"></div>
+    <button class="btn" id="nb" style="display:none;margin-top:14px">${S.q+1<QS.length?'Next →':'✅ Submit'}</button>`);
+  const od=$('opts');
+  q.o.forEach((o,i)=>{
+    const b=document.createElement('button');b.className='opt';b.id='o'+i;
+    b.textContent=String.fromCharCode(65+i)+'. '+o;
+    b.addEventListener('click',()=>pick(i));od.appendChild(b);
+  });
+  $('nb').addEventListener('click',()=>nxt());
+  clearInterval(tid);
+  tid=setInterval(()=>{
+    S.tl--;
+    const ts=$('ts'),tb=$('tb');
+    if(ts){ts.textContent=S.tl+'s';ts.className='ts'+(S.tl<=5?' urg':'');}
+    if(tb){tb.style.width=(S.tl/QD*100)+'%';if(S.tl<=5)tb.style.background='#ef4444';}
+    if(S.tl<=5&&S.tl>0)sndUrg();
+    if(S.tl<=0){sndEnd();nxt();}
+  },1000);
+}
+
+function pick(i){
+  if(adv)return;sndClick();
+  if(S.sel!==null){const p=$('o'+S.sel);if(p)p.classList.remove('sel');}
+  S.sel=i;const b=$('o'+i);if(b)b.classList.add('sel');
+  const n=$('nb');if(n)n.style.display='block';
+}
+
+function nxt(){
+  if(adv)return;adv=true;clearInterval(tid);
+  if(S.sel!==null&&S.sel===QS[S.q].a)S.score++;
+  S.q++;
+  if([5,10,15].includes(S.q)&&S.q<QS.length)quote(showQ);
+  else if(S.q>=QS.length)finish();
+  else showQ();
+}
+
+// ── Finish ──
+function finish(){
+  clearInterval(tid);
+  const tt=Math.round((Date.now()-S.t0)/1000);
+  const pct=Math.round(S.score/QS.length*100);
+  const grade=pct>=80?'Distinction':pct>=60?'Merit':'Participation';
+  const msg=pct>=80?'🏆 Outstanding!':pct>=60?'👏 Well done!':'📚 Keep learning!';
+  const tm=Math.floor(tt/60),ts=tt%60;
+  const now=new Date();
+  const subAt=now.toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
+  const dateOnly=now.toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata',day:'2-digit',month:'long',year:'numeric'});
+
+  resultData={name:S.name,phone:S.phone,score:S.score,total:QS.length,pct,grade,tm,ts,subAt,dateOnly};
+
+  setA(S.phone);
+  const rec={name:S.name,phone:S.phone,score:S.score,total:QS.length,timeTaken:tt,submittedAt:now.toISOString()};
+  addS(rec);
+  sendToSheet(rec); // send to Google Sheets in background
+
+  sndWin();setTimeout(confetti,300);
+
+  const scores=getS().sort((a,b)=>b.score-a.score||a.timeTaken-b.timeTaken);
+  const myRank=scores.findIndex(s=>s.phone===S.phone)+1;
+  const lbRows=scores.slice(0,5).map((s,i)=>{
+    const me=s.phone===S.phone;
+    const bk=i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`;
+    const stm=Math.floor(s.timeTaken/60),sts=s.timeTaken%60;
+    return `<tr class="${me?'me':''}""><td>${bk}</td><td>${me?'<strong>'+s.name+'</strong>':s.name}${me?' 👈':''}</td><td><strong style="color:#ff6b35">${s.score}/${s.total}</strong></td><td>${stm}m ${sts}s</td></tr>`;
+  }).join('');
+
+  sh(`<h2 style="text-align:center">Quiz Complete! 🎗️</h2>
+    <div class="sc-big">${S.score}/${QS.length}</div>
+    <div class="sc-sub">${pct}% — ${msg}</div>
+    <div class="cert" id="cert-preview">
+      <div style="font-size:2rem;margin-bottom:4px">🎗️</div>
+      <div class="ct">Certificate of Participation</div>
+      <div class="cm">World Cancer Day 2026 Quiz</div>
+      <div class="cm" style="font-size:.85rem;color:#a78bfa">Rural Health and Training Centre, Mandur</div>
+      <div style="color:#6b4fa0;font-size:.78rem;margin:4px 0 8px">This certifies that</div>
+      <div class="cn">${S.name}</div>
+      <div class="cb">has successfully participated and scored</div>
+      <div class="cs">${S.score} / ${QS.length} (${pct}%)</div>
+      <div class="cb">Grade: <strong style="color:#ff6b35">${grade}</strong> &nbsp;|&nbsp; Time: ${tm}m ${ts}s</div>
+      <div class="cf">📅 ${dateOnly} &nbsp;|&nbsp; 📱 ${S.phone}</div>
+    </div>
+    <button class="btn-dl" id="dlBtn">⬇ Download Certificate</button>
+    <div class="sec-t">🏆 Leaderboard (Top 5 – This Device)</div>
+    <div style="overflow-x:auto"><table class="lb"><thead><tr><th>Rank</th><th>Name</th><th>Score</th><th>Time</th></tr></thead><tbody>${lbRows}</tbody></table></div>
+    ${myRank>5?`<div style="color:#a78bfa;font-size:.8rem;text-align:center;margin-top:5px">Your rank: <strong style="color:#ff6b35">#${myRank}</strong> of ${scores.length}</div>`:''}
+    <div class="info" style="margin-top:12px">🔒 Correct answers will be released later by the organiser.</div>`);
+
+  $('dlBtn').addEventListener('click', downloadCert);
+}
+
+// ── Download Certificate as PNG ──
+function downloadCert(){
+  const d=resultData;
+  const canvas=$('cert-canvas');
+  const W=900,H=600;
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+
+  // Background
+  const bg=ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#1a0a2e');bg.addColorStop(1,'#2d1b4e');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+  // Outer border
+  ctx.strokeStyle='#ff6b35';ctx.lineWidth=6;
+  ctx.strokeRect(10,10,W-20,H-20);
+  // Inner dashed border
+  ctx.strokeStyle='#4a2d7a';ctx.lineWidth=1.5;ctx.setLineDash([8,6]);
+  ctx.strokeRect(24,24,W-48,H-48);ctx.setLineDash([]);
+
+  // Ribbon emoji area
+  ctx.font='52px serif';ctx.textAlign='center';ctx.fillText('🎗️',W/2,90);
+
+  // Title
+  ctx.font='bold 13px Segoe UI';ctx.fillStyle='#c084fc';ctx.letterSpacing='4px';
+  ctx.fillText('CERTIFICATE OF PARTICIPATION',W/2,120);ctx.letterSpacing='0px';
+
+  // Main heading
+  ctx.font='bold 28px Segoe UI';ctx.fillStyle='#ff6b35';ctx.fillText('World Cancer Day 2026 Quiz',W/2,160);
+  ctx.font='16px Segoe UI';ctx.fillStyle='#a78bfa';ctx.fillText('Rural Health and Training Centre, Mandur',W/2,185);
+
+  // This certifies that
+  ctx.font='14px Segoe UI';ctx.fillStyle='#6b4fa0';ctx.fillText('This certifies that',W/2,225);
+
+  // Name
+  ctx.font='bold 34px Segoe UI';ctx.fillStyle='#f0f0f0';ctx.fillText(d.name,W/2,270);
+
+  // Body
+  ctx.font='14px Segoe UI';ctx.fillStyle='#a78bfa';ctx.fillText('has successfully participated and scored',W/2,305);
+
+  // Score gradient text
+  const sg=ctx.createLinearGradient(W/2-80,0,W/2+80,0);
+  sg.addColorStop(0,'#ff6b35');sg.addColorStop(1,'#c084fc');
+  ctx.font='bold 36px Segoe UI';ctx.fillStyle=sg;
+  ctx.fillText(`${d.score} / ${d.total}  (${d.pct}%)`,W/2,348);
+
+  // Grade & time
+  ctx.font='14px Segoe UI';ctx.fillStyle='#a78bfa';
+  ctx.fillText(`Grade: ${d.grade}   |   Time: ${d.tm}m ${d.ts}s`,W/2,380);
+
+  // Divider line
+  ctx.strokeStyle='#4a2d7a';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(80,405);ctx.lineTo(W-80,405);ctx.stroke();
+
+  // Footer
+  ctx.font='12px Segoe UI';ctx.fillStyle='#6b4fa0';
+  ctx.fillText(`📅 ${d.dateOnly}   |   📱 ${d.phone}`,W/2,430);
+  ctx.fillText('World Cancer Day 2026 — Together, we can prevent cancer.',W/2,455);
+
+  // Download
+  const link=document.createElement('a');
+  link.download=`WCD2026_Certificate_${d.name.replace(/\s+/g,'_')}.png`;
+  link.href=canvas.toDataURL('image/png');
+  link.click();
+}
+
+// ── Admin ──
+function adminLogin(){
+  clearInterval(tid);
+  sh(`<h2>🔒 Admin Access</h2>
+    <p style="color:#a78bfa;font-size:.85rem;margin-bottom:12px">Full scores visible in your Google Sheet. Local scores shown here.</p>
+    <label>Password</label><input type="password" id="ap" placeholder="Admin password">
+    <button class="btn" id="lb">Login</button>
+    <button class="btn-outline" id="bk">← Back</button>`);
+  $('lb').addEventListener('click',()=>{if($('ap').value===PASS)adminPanel();else alert('Incorrect password.');});
+  $('bk').addEventListener('click',reg);
+}
+
+function adminPanel(){
+  const parts=getS().sort((a,b)=>b.score-a.score||a.timeTaken-b.timeTaken);
+  const rows=parts.map((p,i)=>{
+    const bk=i===0?'<span class="badge bg">🥇</span>':i===1?'<span class="badge bs">🥈</span>':i===2?'<span class="badge bb">🥉</span>':`#${i+1}`;
+    const tm=Math.floor(p.timeTaken/60),ts=p.timeTaken%60;
+    const dt=new Date(p.submittedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
+    return `<tr><td>${bk}</td><td>${p.name}</td><td>${p.phone}</td><td><strong style="color:#ff6b35">${p.score}/${p.total}</strong></td><td>${tm}m ${ts}s</td><td style="font-size:.73rem;color:#a78bfa">${dt}</td></tr>`;
+  }).join('');
+  sh(`<h2>📊 Local Scores <span style="font-size:.8rem;color:#a78bfa">(${parts.length})</span></h2>
+    <p style="color:#22c55e;font-size:.82rem;margin-bottom:10px">✅ All submissions are also saved to your Google Sheet automatically.</p>
+    <div style="overflow-x:auto;margin-top:8px"><table class="lb">
+      <thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Score</th><th>Time</th><th>Submitted</th></tr></thead>
+      <tbody>${rows||'<tr><td colspan="6" style="color:#a78bfa;text-align:center;padding:16px">No submissions yet.</td></tr>'}</tbody>
+    </table></div>
+    <div id="amsg"></div>
+    <label style="margin-top:14px">Delete test entry (phone):</label>
+    <input type="tel" id="dp" placeholder="10-digit number" maxlength="10">
+    <button class="btn-danger" id="db">🗑 Delete Local Entry</button>
+    <button class="btn-outline" id="bk2">← Back</button>`);
+  $('db').addEventListener('click',()=>{
+    const ph=$('dp').value.trim().replace(/\D/g,'');
+    const m=$('amsg');
+    if(!/^\d{10}$/.test(ph)){m.innerHTML='<div class="msg err">Enter valid 10-digit number.</div>';return;}
+    if(!getS().some(p=>p.phone===ph)){m.innerHTML='<div class="msg err">Not found locally.</div>';return;}
+    localStorage.setItem(LSS,JSON.stringify(getS().filter(p=>p.phone!==ph)));
+    localStorage.setItem(LSK,JSON.stringify(getA().filter(p=>p!==ph)));
+    m.innerHTML='<div class="msg ok">✅ Deleted locally! Number can re-attempt.</div>';
+    setTimeout(adminPanel,1400);
+  });
+  $('bk2').addEventListener('click',reg);
+}
+
+reg();
+</script>
+</body>
+</html>
